@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    var reachability: Reachability?
+    
     var studentManager = StudentManager.sharedInstance
     
     override func viewDidLoad() {
@@ -25,28 +27,8 @@ class LoginViewController: UIViewController {
         
         definesPresentationContext = true
         
-        let reachability: Reachability
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-        } catch {
-            print("Unable to create Reachability")
-            return
-        }
+        setupReachabilty()
         
-        reachability.whenUnreachable = { reachability in
-            // this is called on a background thread, but UI updates must
-            // be on the main thread, like this:
-            dispatch_async(dispatch_get_main_queue()) {
-                self.showAlert("Error", message: "No internet connection.")
-                self.loginButton.enabled = false
-            }
-        }
-        
-        do {
-            try reachability.startNotifier()
-        } catch {
-            print("Unable to start notifier")
-        }
         
         // Do any additional setup after loading the view, typically from a nib.
         usernameTextField.becomeFirstResponder()
@@ -55,6 +37,33 @@ class LoginViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         tapGesture.cancelsTouchesInView = true
         view.addGestureRecognizer(tapGesture)
+    }
+    
+    private func setupReachabilty() {
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create Reachability")
+            return
+        }
+        
+        if let reachability = reachability {
+            reachability.whenUnreachable = { reachability in
+                // this is called on a background thread, but UI updates must
+                // be on the main thread, like this:
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.showAlert("Error", message: "No internet connection.")
+                    self.loginButton.enabled = false
+                }
+            }
+            
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reachabilityChanged), name: ReachabilityChangedNotification,object: reachability)
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -68,6 +77,15 @@ class LoginViewController: UIViewController {
         unsubscribeFromKeyboardNotifications()
     }
     
+    func reachabilityChanged() {
+        if let reachability = reachability {
+            if reachability.isReachable() {
+                performUIUpdatesOnMain({ 
+                    self.loginButton.enabled = true
+                })
+            }
+        }
+    }
     
     
     @IBAction func login() {
