@@ -32,24 +32,22 @@ class StudentManager {
         }
     }
     
-    func setStudentAttributes(studentInfo: [String:String], placemark: CLPlacemark?) {
+    func setStudentLocation(placemark: CLPlacemark) {
         if currentStudent != nil {
-            
+            if let latitude = placemark.location?.coordinate.latitude, longitude = placemark.location?.coordinate.longitude {
+                currentStudent?.latitude = Double(latitude)
+                currentStudent?.longitude = Double(longitude)
+            }
+        }
+    }
+    
+    func setStudentAttributes(studentInfo: [String:String]) {
+        if currentStudent != nil {
             if let mapString = studentInfo["mapString"] {
                 currentStudent!.mapString = mapString
             }
             if let mediaURL = studentInfo["mediaURL"] {
                 currentStudent!.mediaURL = mediaURL
-            }
-            
-            if let placemark = placemark {
-                studentPlacemark = placemark
-                if let lat = placemark.location?.coordinate.latitude {
-                    currentStudent?.latitude = lat
-                }
-                if let long = placemark.location?.coordinate.longitude {
-                    currentStudent?.longitude = long
-                }
             }
         }
     }

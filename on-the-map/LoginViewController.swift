@@ -141,7 +141,7 @@ class LoginViewController: UIViewController {
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        self.view.frame.origin.y = -getKeyboardHeight(notification)
+        view.frame.origin.y = -getKeyboardHeight(notification)
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
@@ -151,7 +151,7 @@ class LoginViewController: UIViewController {
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        self.view.frame.origin.y = 0
+        view.frame.origin.y = 0
     }
     
     func hideKeyboard() {

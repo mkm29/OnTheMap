@@ -161,33 +161,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MrU-lo-wY7">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="6Py-FP-vd6">
-                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <rect key="frame" x="281" y="281" width="37" height="37"/>
                                 <color key="color" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uka-6y-hbh">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem title="My Location" id="AxJ-pt-gWV"/>
-                                </items>
-                            </toolbar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hBz-EV-vuE">
                                 <rect key="frame" x="70" y="28" width="460" height="90"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="media URL" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="KgK-kl-oV3">
-                                        <rect key="frame" x="0.0" y="0.0" width="460" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL"/>
-                                    </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="map string" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="F90-lc-xeW">
-                                        <rect key="frame" x="0.0" y="30" width="460" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="460" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7l-ep-bA2">
-                                        <rect key="frame" x="0.0" y="60" width="460" height="30"/>
+                                        <rect key="frame" x="0.0" y="30" width="460" height="30"/>
                                         <color key="backgroundColor" red="0.18039215689999999" green="0.52549019610000003" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="find location">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -196,32 +185,40 @@
                                             <action selector="findLocation" destination="4C4-5s-3Ci" eventType="touchUpInside" id="wXV-Ob-5uh"/>
                                         </connections>
                                     </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="media URL" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="KgK-kl-oV3">
+                                        <rect key="frame" x="0.0" y="60" width="460" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL"/>
+                                    </textField>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="MrU-lo-wY7" firstAttribute="centerY" secondItem="6Py-FP-vd6" secondAttribute="centerY" id="Ep9-nl-kBI"/>
                             <constraint firstItem="hBz-EV-vuE" firstAttribute="centerY" secondItem="cuR-X5-AkA" secondAttribute="centerY" id="HQM-db-Uh9"/>
-                            <constraint firstItem="MrU-lo-wY7" firstAttribute="leading" secondItem="Uka-6y-hbh" secondAttribute="leading" id="Phs-0X-laG"/>
+                            <constraint firstItem="hBz-EV-vuE" firstAttribute="centerX" secondItem="6Py-FP-vd6" secondAttribute="centerX" id="RAI-lF-ZCn"/>
+                            <constraint firstItem="hBz-EV-vuE" firstAttribute="leading" secondItem="cuR-X5-AkA" secondAttribute="leadingMargin" constant="50" id="ZJs-oh-dhU"/>
+                            <constraint firstItem="MrU-lo-wY7" firstAttribute="bottom" secondItem="TAA-p9-7Es" secondAttribute="top" id="ZcA-H1-x0e"/>
                             <constraint firstItem="MrU-lo-wY7" firstAttribute="leading" secondItem="cuR-X5-AkA" secondAttribute="leading" id="b6b-2g-Dg2"/>
-                            <constraint firstItem="6Py-FP-vd6" firstAttribute="centerX" secondItem="Uka-6y-hbh" secondAttribute="centerX" id="bAY-Vc-Tya"/>
                             <constraint firstItem="hBz-EV-vuE" firstAttribute="centerY" secondItem="6Py-FP-vd6" secondAttribute="centerY" id="bfm-hx-bxr"/>
-                            <constraint firstItem="Uka-6y-hbh" firstAttribute="bottom" secondItem="TAA-p9-7Es" secondAttribute="top" id="bkd-SF-PDs"/>
                             <constraint firstItem="6Py-FP-vd6" firstAttribute="centerX" secondItem="cuR-X5-AkA" secondAttribute="centerX" id="d5d-gb-upY"/>
-                            <constraint firstItem="hBz-EV-vuE" firstAttribute="leading" secondItem="cuR-X5-AkA" secondAttribute="leadingMargin" constant="50" id="lRO-6c-cDj"/>
+                            <constraint firstItem="MrU-lo-wY7" firstAttribute="top" secondItem="cuR-X5-AkA" secondAttribute="top" id="gk5-Iu-wLO"/>
+                            <constraint firstItem="hBz-EV-vuE" firstAttribute="top" secondItem="Gj4-sC-2Ps" secondAttribute="bottom" constant="8" symbolic="YES" id="lvr-98-ACR"/>
                             <constraint firstItem="MrU-lo-wY7" firstAttribute="top" secondItem="cuR-X5-AkA" secondAttribute="top" id="nRa-tG-Lm3"/>
-                            <constraint firstItem="hBz-EV-vuE" firstAttribute="centerX" secondItem="6Py-FP-vd6" secondAttribute="centerX" id="okT-pG-VNw"/>
-                            <constraint firstItem="hBz-EV-vuE" firstAttribute="top" secondItem="Gj4-sC-2Ps" secondAttribute="bottom" constant="8" symbolic="YES" id="otn-Ix-UPG"/>
+                            <constraint firstAttribute="trailing" secondItem="MrU-lo-wY7" secondAttribute="trailing" id="oSR-TZ-pJd"/>
+                            <constraint firstItem="MrU-lo-wY7" firstAttribute="centerX" secondItem="hBz-EV-vuE" secondAttribute="centerX" id="pf8-bN-w0p"/>
                             <constraint firstItem="hBz-EV-vuE" firstAttribute="centerX" secondItem="cuR-X5-AkA" secondAttribute="centerX" id="rmI-HP-veD"/>
                             <constraint firstItem="6Py-FP-vd6" firstAttribute="centerY" secondItem="cuR-X5-AkA" secondAttribute="centerY" id="sE4-i8-G8j"/>
                             <constraint firstAttribute="trailing" secondItem="MrU-lo-wY7" secondAttribute="trailing" id="see-fA-JxH"/>
+                            <constraint firstItem="MrU-lo-wY7" firstAttribute="leading" secondItem="cuR-X5-AkA" secondAttribute="leading" id="tDc-dU-g3g"/>
                             <constraint firstItem="TAA-p9-7Es" firstAttribute="top" secondItem="hBz-EV-vuE" secondAttribute="bottom" constant="240" id="tWd-OP-Xjf"/>
-                            <constraint firstItem="6Py-FP-vd6" firstAttribute="centerY" secondItem="cuR-X5-AkA" secondAttribute="centerY" id="ttm-cV-Bkx"/>
-                            <constraint firstItem="MrU-lo-wY7" firstAttribute="trailing" secondItem="Uka-6y-hbh" secondAttribute="trailing" id="wzZ-Wp-1O8"/>
-                            <constraint firstItem="Uka-6y-hbh" firstAttribute="top" secondItem="MrU-lo-wY7" secondAttribute="bottom" id="xIY-F5-wZh"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="b6b-2g-Dg2"/>
+                                <exclude reference="nRa-tG-Lm3"/>
+                                <exclude reference="see-fA-JxH"/>
                                 <exclude reference="HQM-db-Uh9"/>
                                 <exclude reference="bfm-hx-bxr"/>
                                 <exclude reference="rmI-HP-veD"/>

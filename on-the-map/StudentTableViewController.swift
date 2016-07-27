@@ -155,12 +155,6 @@ class StudentTableViewController: UITableViewController, UIPopoverPresentationCo
         }
     }
     
-    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-        let student = studentManager.students[indexPath.row]
-        
-        
-    }
-    
     private func showStudentDetails() {
         let studentDetailsVC = storyboard?.instantiateViewControllerWithIdentifier("StudentDetailViewController") as! StudentDetailViewController
         let navigationController = UINavigationController(rootViewController: studentDetailsVC)

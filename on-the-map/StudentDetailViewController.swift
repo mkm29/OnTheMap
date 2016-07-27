@@ -33,7 +33,7 @@ class StudentDetailViewController: UIViewController, CLLocationManagerDelegate {
         tapGesture.cancelsTouchesInView = true
         view.addGestureRecognizer(tapGesture)
         
-        mediaURL.becomeFirstResponder()
+        mediaURL.hidden = true
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -94,54 +94,44 @@ class StudentDetailViewController: UIViewController, CLLocationManagerDelegate {
         
         // we know that the student variable is never going to be nil here
         
-        if mediaURL.text == "" {
-            showAlert("Error", message: "The media URL field must be complete before saving.")
+        var errorString = ""
+        
+        if mediaURL.text! == "" {
+            errorString.appendContentsOf("The media URL field cannot be empty. ")
+        }
+        if mapString.text! == "" {
+            errorString.appendContentsOf("The map string field cannot be empty. ")
+        }
+        
+        if errorString != "" {
+            showAlert("Error", message: errorString)
             return
         }
         
+        let studentInfo = [
+            "mapString" : mapString.text!,
+            "mediaURL" : mediaURL.text!
+        ]
+        studentManager.setStudentAttributes(studentInfo)
+        print(studentManager.currentStudent)
         
-        if let addressString = mapString.text where mapString.text != "" {
-            let geocoder = CLGeocoder()
-            
-            activityIndicator.startAnimating()
-            geocoder.geocodeAddressString(addressString, completionHandler: { (placemarks, error) in
-                self.activityIndicator.stopAnimating()
-                if error != nil {
-                    self.showAlert("Error", message: "There was an error geocoding the provided string.")
-                    return
+        // now need to post the student to Parse and dismiss VC
+        studentManager.parseClient.poseToParse(studentManager.currentStudent!) { (success, objectId, error) in
+            if error != nil {
+                self.showAlert("Error", message: "There was an issue posting the current student to Parse. Try again later")
+            }
+            if success {
+                print(objectId)
+                if let objectId = objectId {
+                    self.studentManager.setObjectId(objectId)
                 }
-                if let placemarks = placemarks {
-                    //print(placemarks.first)
-                    let placemark = placemarks.first
-                    
-                    let studentInfo: [String : String] = [
-                        "mapString" : self.mapString.text!,
-                        "mediaURL" : self.mediaURL.text!
-                    ]
-                    
-                    self.studentManager.setStudentAttributes(studentInfo, placemark: placemark)
-                    
-                    self.studentManager.parseClient.poseToParse(self.studentManager.currentStudent!) { (success, objectId, error) in
-                        if error != nil {
-                            self.showAlert("Error", message: "There was an error posting your location to Parse.")
-                            self.dismissViewControllerAnimated(true, completion: nil)
-                        }
-                        
-                        if success {
-                            if let objectId = objectId {
-                                self.studentManager.setObjectId(objectId)
-                            }
-                            self.dismissViewControllerAnimated(true, completion: {
-                                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.Zoom, object: nil)
-                                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.Refresh, object: nil)
-                            })
-                        }
-                    }
-                }
-                
+            } else {
+                self.showAlert("Error", message: "There was an issue posting the current student to Parse. Try again later")
+            }
+            self.dismissViewControllerAnimated(true, completion: { 
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.Refresh, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.Zoom, object: nil)
             })
-        } else {
-            showAlert("Error", message: "The map string field must be complete before saving.")
         }
     }
     
@@ -160,6 +150,10 @@ class StudentDetailViewController: UIViewController, CLLocationManagerDelegate {
                 
                 if let placemarks = placemarks {
                     if let placemark = placemarks.first {
+                        // update the current student
+                        self.studentManager.setStudentLocation(placemark)
+                        self.mediaURL.hidden = false
+                        self.mediaURL.becomeFirstResponder()
                         // now need to zoom to the area
                         self.zoomToPlacemark(placemark)
                     } else {
