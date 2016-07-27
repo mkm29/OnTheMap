@@ -81,7 +81,7 @@ class StudentTableViewController: UITableViewController, UIPopoverPresentationCo
     
     func add() {
         // grab the current student from the appDelegate
-        let studentDetailsVC = storyboard?.instantiateViewControllerWithIdentifier("StudentDetailViewController") as! StudentDetailViewController
+        let studentDetailsVC = storyboard?.instantiateViewControllerWithIdentifier("studentDetailViewController") as! StudentDetailViewController
         let navigationController = UINavigationController(rootViewController: studentDetailsVC)
         presentViewController(navigationController, animated: true, completion: nil)
     }

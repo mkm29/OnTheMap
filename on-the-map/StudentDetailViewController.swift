@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import ReachabilitySwift
+import MapKit
 
 class StudentDetailViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -22,9 +23,12 @@ class StudentDetailViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    @IBOutlet weak var mapView: MKMapView!
+    
      // MARK: - Life cycle methods
     
     override func viewDidLoad() {
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         tapGesture.cancelsTouchesInView = true
         view.addGestureRecognizer(tapGesture)
@@ -41,7 +45,7 @@ class StudentDetailViewController: UIViewController, CLLocationManagerDelegate {
         let saveButton = UIBarButtonItem(barButtonSystemItem: .Save, target: self, action: #selector(save))
         navigationItem.setRightBarButtonItem(saveButton, animated: true)
         // now set up the navBar
-        let backButton = UIBarButtonItem(title: "Students", style: .Done, target: self, action: #selector(back))
+        let backButton = UIBarButtonItem(title: "Back", style: .Done, target: self, action: #selector(back))
         navigationItem.setLeftBarButtonItem(backButton, animated: true)
         
         // we have ensured that the student var is not nil
@@ -140,6 +144,54 @@ class StudentDetailViewController: UIViewController, CLLocationManagerDelegate {
             showAlert("Error", message: "The map string field must be complete before saving.")
         }
     }
+    
+    @IBAction func findLocation() {
+        if mapString.text != "" {
+            activityIndicator.startAnimating()
+            
+            let geocoder = CLGeocoder()
+            
+            geocoder.geocodeAddressString(mapString.text!, completionHandler: { (placemarks, error) in
+                self.activityIndicator.stopAnimating()
+                if error != nil {
+                    self.showAlert("Error", message: "Sorry the geocoding process failed. Please re-enter map string and try aggain")
+                    return
+                }
+                
+                if let placemarks = placemarks {
+                    if let placemark = placemarks.first {
+                        // now need to zoom to the area
+                        self.zoomToPlacemark(placemark)
+                    } else {
+                        self.showAlert("Error", message: "Sorry there were no placemarks matching your searcgh")
+                        return
+                    }
+                } else {
+                    self.showAlert("Error", message: "Sorry there were no placemarks matching your searcgh")
+                    return
+                }
+            })
+        } else {
+           showAlert("Oops", message: "Make sure that the map string field is complete and try again")
+        }
+        
+        
+    }
+    
+    func zoomToPlacemark(placemark: CLPlacemark) {
+        if let lat = placemark.location?.coordinate.latitude, long = placemark.location?.coordinate.longitude {
+            let coordinate = CLLocationCoordinate2DMake(CLLocationDegrees(lat), CLLocationDegrees(long))
+            let region = MKCoordinateRegionMakeWithDistance(coordinate, 2000, 2000)
+            
+            let mkPlacemark = MKPlacemark(placemark: placemark)
+            
+            performUIUpdatesOnMain({
+                self.mapView.setRegion(region, animated: true)
+                self.mapView.addAnnotation(mkPlacemark)
+            })
+        }
+    }
+    
     
     override func showAlert(title: String?, message: String?) {
         dispatch_async(dispatch_get_main_queue()) {

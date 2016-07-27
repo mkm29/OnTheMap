@@ -157,7 +157,7 @@ extension StudentMapViewController: MKMapViewDelegate {
     }
 }
 
-extension StudentMapViewController: CLLocationManagerDelegate {
+extension StudentMapViewController: CLLocationManagerDelegate, UIPopoverPresentationControllerDelegate {
     
     private func addAnnotationsFromStudents() {
         if studentManager.students.count > 0 {
@@ -169,6 +169,8 @@ extension StudentMapViewController: CLLocationManagerDelegate {
                     annotation.coordinate = coordinate
                     annotation.title = student.name
                     annotation.subtitle = student.mediaURL
+                    
+                    
                     performUIUpdatesOnMain({
                         self.mapView.addAnnotation(annotation)
                     })
@@ -179,15 +181,32 @@ extension StudentMapViewController: CLLocationManagerDelegate {
     
     
     func dropPin() {
-//        let studentDetailsVC = storyboard?.instantiateViewControllerWithIdentifier("StudentDetailViewController") as! StudentDetailViewController
-//        studentDetailsVC.student = nil
-//        let navigationController = UINavigationController(rootViewController: studentDetailsVC)
-//        //navigationController.pushViewController(studentDetailsVC, animated: true)
-//        presentViewController(navigationController, animated: true, completion: nil)
-        let studentDetailsVC = storyboard?.instantiateViewControllerWithIdentifier("StudentDetailViewController") as! StudentDetailViewController
+        let studentDetailsVC = storyboard?.instantiateViewControllerWithIdentifier("studentDetailViewController") as! StudentDetailViewController
+        _ = studentDetailsVC.view
         let navigationController = UINavigationController(rootViewController: studentDetailsVC)
         navigationController.navigationItem.title = "Map"
         presentViewController(navigationController, animated: true, completion: nil)
+        
+    }
+    
+    func showPopover() {
+        let studentDetailViewController = storyboard?.instantiateViewControllerWithIdentifier("StudentDetailViewController") as! StudentDetailViewController
+        studentDetailViewController.preferredContentSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: UIScreen.mainScreen().bounds.height / 3)
+        
+        let navigationController = UINavigationController(rootViewController: studentDetailViewController)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        
+        let popOver = navigationController.popoverPresentationController
+        popOver?.delegate = self
+        //popOver?.sourceView = view
+        popOver?.sourceRect = CGRectMake(CGRectGetMidX(view.bounds), CGRectGetMidY(view.bounds),0,0)
+        popOver?.barButtonItem = navigationItem.rightBarButtonItems![0]
+        
+        presentViewController(navigationController, animated: true, completion: nil)
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .None
     }
     
     func zoomToRegion() {

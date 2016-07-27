@@ -14,6 +14,7 @@
 		AF1DD0DE1D2AECBA00E4C74D /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1DD0DD1D2AECBA00E4C74D /* GCDBlackBox.swift */; };
 		AF1DD0E01D2AECDE00E4C74D /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF1DD0DF1D2AECDE00E4C74D /* Student.swift */; };
 		AF2659EB1D3E6B4000142CF2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF2659EA1D3E6B4000142CF2 /* CoreLocation.framework */; };
+		AF363D6B1D4814CC00C1AD02 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF363D6A1D4814CC00C1AD02 /* MapKit.framework */; };
 		AF4C1B2C1D3EA05F0058F490 /* StudentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4C1B2B1D3EA05F0058F490 /* StudentManager.swift */; };
 		AF83199E1D3A85B30034587D /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF83199D1D3A85B20034587D /* Notifications.swift */; };
 		AF8319A01D3BA9AB0034587D /* StudentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF83199F1D3BA9AB0034587D /* StudentDetailViewController.swift */; };
@@ -35,6 +36,7 @@
 		AF1DD0DD1D2AECBA00E4C74D /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 		AF1DD0DF1D2AECDE00E4C74D /* Student.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		AF2659EA1D3E6B4000142CF2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AF363D6A1D4814CC00C1AD02 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		AF4C1B2B1D3EA05F0058F490 /* StudentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentManager.swift; sourceTree = "<group>"; };
 		AF83199D1D3A85B20034587D /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		AF83199F1D3BA9AB0034587D /* StudentDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentDetailViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF363D6B1D4814CC00C1AD02 /* MapKit.framework in Frameworks */,
 				AF2659EB1D3E6B4000142CF2 /* CoreLocation.framework in Frameworks */,
 				2AD85A315B183B23FF8B6956 /* Pods_on_the_map.framework in Frameworks */,
 			);
@@ -165,6 +168,7 @@
 		B3A99401CA86FA23EC53F848 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AF363D6A1D4814CC00C1AD02 /* MapKit.framework */,
 				B8E9E523B681B5AB285AD4C6 /* Pods_on_the_map.framework */,
 			);
 			name = Frameworks;

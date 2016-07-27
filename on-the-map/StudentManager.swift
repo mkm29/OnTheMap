@@ -13,6 +13,7 @@ class StudentManager {
     
     var students = [Student]()
     var currentStudent: Student?
+    var studentPlacemark: CLPlacemark?
     
     let udacityClient = UdacityClient.sharedInstance
     let parseClient = ParseClient.sharedInstance
@@ -42,6 +43,7 @@ class StudentManager {
             }
             
             if let placemark = placemark {
+                studentPlacemark = placemark
                 if let lat = placemark.location?.coordinate.latitude {
                     currentStudent?.latitude = lat
                 }
